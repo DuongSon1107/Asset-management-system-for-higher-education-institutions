@@ -1,0 +1,8 @@
+{
+  "cSpell.words": [
+    "apexcharts"
+  ],
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+}
