@@ -8,11 +8,11 @@ import { BlankLayoutWithAppBarProps } from './types'
 // ** AppBar Imports
 import AppBar from '@/@core/layouts/components/blank-layout-with-appBar'
 
-// Styled component for Blank Layout with AppBar component
-const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+// Styled component cho Blank Layout với AppBar
+const StyledBlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   height: '100vh',
 
-  // For V1 Blank layout pages
+  // Layout cho các trang Blank Layout V1
   '& .content-center': {
     display: 'flex',
     alignItems: 'center',
@@ -21,7 +21,7 @@ const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     minHeight: `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`
   },
 
-  // For V2 Blank layout pages
+  // Layout cho các trang Blank Layout V2
   '& .content-right': {
     display: 'flex',
     overflowX: 'hidden',
@@ -30,12 +30,9 @@ const BlankLayoutWithAppBarWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const BlankLayoutWithAppBar = (props: BlankLayoutWithAppBarProps) => {
-  // ** Props
-  const { children } = props
-
+const BlankLayoutWithAppBar = ({ children }: BlankLayoutWithAppBarProps) => {
   return (
-    <BlankLayoutWithAppBarWrapper>
+    <StyledBlankLayoutWithAppBarWrapper>
       <AppBar />
       <Box
         className='app-content'
@@ -47,7 +44,7 @@ const BlankLayoutWithAppBar = (props: BlankLayoutWithAppBarProps) => {
       >
         {children}
       </Box>
-    </BlankLayoutWithAppBarWrapper>
+    </StyledBlankLayoutWithAppBarWrapper>
   )
 }
 

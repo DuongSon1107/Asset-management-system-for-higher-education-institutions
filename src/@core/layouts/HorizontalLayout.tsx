@@ -24,12 +24,14 @@ import AppBarContent from './components/horizontal/app-bar-content'
 // ** Util Import
 import { hexToRGBA } from '../utils/hex-to-rgba'
 
+// Styled component for the main layout wrapper
 const HorizontalLayoutWrapper = styled('div')({
   height: '100%',
   display: 'flex',
   ...(themeConfig.horizontalMenuAnimation && { overflow: 'clip' })
 })
 
+// Styled component for the main content wrapper
 const MainContentWrapper = styled(Box)<BoxProps>({
   flexGrow: 1,
   minWidth: 0,
@@ -38,6 +40,7 @@ const MainContentWrapper = styled(Box)<BoxProps>({
   flexDirection: 'column'
 })
 
+// Styled component for the AppBar toolbar
 const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
   width: '100%',
   padding: `${theme.spacing(0, 6)} !important`,
@@ -51,6 +54,7 @@ const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
   }
 }))
 
+// Styled component for the content wrapper
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
@@ -63,7 +67,6 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 }))
 
 const HorizontalLayout = (props: LayoutProps) => {
-  // ** Props
   const {
     hidden,
     children,
@@ -75,26 +78,29 @@ const HorizontalLayout = (props: LayoutProps) => {
     horizontalLayoutProps
   } = props
 
-  // ** Vars
+  // Destructuring settings
   const { skin, appBar, navHidden, appBarBlur, contentWidth } = settings
   const appBarProps = horizontalLayoutProps?.appBar?.componentProps
   const userNavMenuContent = horizontalLayoutProps?.navMenu?.content
 
   let userAppBarStyle = {}
-  if (appBarProps && appBarProps.sx) {
+  if (appBarProps?.sx) {
     userAppBarStyle = appBarProps.sx
   }
-  const userAppBarProps = Object.assign({}, appBarProps)
+  const userAppBarProps = { ...appBarProps }
   delete userAppBarProps.sx
 
   return (
-    <HorizontalLayoutWrapper className='layout-wrapper'>
-      <MainContentWrapper className='layout-content-wrapper' sx={{ ...(contentHeightFixed && { maxHeight: '100vh' }) }}>
-        {/* Navbar (or AppBar) and Navigation Menu Wrapper */}
+    <HorizontalLayoutWrapper className="layout-wrapper">
+      <MainContentWrapper
+        className="layout-content-wrapper"
+        sx={{ ...(contentHeightFixed && { maxHeight: '100vh' }) }}
+      >
+        {/* AppBar and Navbar */}
         <AppBar
-          color='default'
+          color="default"
           elevation={skin === 'bordered' ? 0 : 2}
-          className='layout-navbar-and-nav-container'
+          className="layout-navbar-and-nav-container"
           position={appBar === 'fixed' ? 'sticky' : 'static'}
           sx={{
             alignItems: 'center',
@@ -109,16 +115,15 @@ const HorizontalLayout = (props: LayoutProps) => {
           }}
           {...userAppBarProps}
         >
-          {/* Navbar / AppBar */}
           <Box
-            className='layout-navbar'
+            className="layout-navbar"
             sx={{
               width: '100%',
               ...(navHidden ? {} : { borderBottom: theme => `1px solid ${theme.palette.divider}` })
             }}
           >
             <Toolbar
-              className='navbar-content-container'
+              className="navbar-content-container"
               sx={{
                 mx: 'auto',
                 ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
@@ -135,33 +140,38 @@ const HorizontalLayout = (props: LayoutProps) => {
               />
             </Toolbar>
           </Box>
-          {/* Navigation Menu */}
-          {navHidden ? null : (
-            <Box className='layout-horizontal-nav' sx={{ width: '100%', ...horizontalLayoutProps?.navMenu?.sx }}>
-              <Toolbar
-                className='horizontal-nav-content-container'
-                sx={{
-                  mx: 'auto',
-                  ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
-                  minHeight: theme =>
-                    `${(theme.mixins.toolbar.minHeight as number) - 4 - (skin === 'bordered' ? 1 : 0)}px !important`
-                }}
-              >
-                {(userNavMenuContent && userNavMenuContent(props)) || (
-                  <Navigation
-                    {...props}
-                    horizontalNavItems={
-                      (horizontalLayoutProps as NonNullable<LayoutProps['horizontalLayoutProps']>).navMenu?.navItems
-                    }
-                  />
-                )}
-              </Toolbar>
-            </Box>
-          )}
         </AppBar>
-        {/* Content */}
+
+        {/* Navigation Menu */}
+        {!navHidden && (
+          <Box
+            className="layout-horizontal-nav"
+            sx={{ width: '100%', ...horizontalLayoutProps?.navMenu?.sx }}
+          >
+            <Toolbar
+              className="horizontal-nav-content-container"
+              sx={{
+                mx: 'auto',
+                ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } }),
+                minHeight: theme =>
+                  `${(theme.mixins.toolbar.minHeight as number) - 4 - (skin === 'bordered' ? 1 : 0)}px !important`
+              }}
+            >
+              {(userNavMenuContent && userNavMenuContent(props)) || (
+                <Navigation
+                  {...props}
+                  horizontalNavItems={
+                    horizontalLayoutProps?.navMenu?.navItems
+                  }
+                />
+              )}
+            </Toolbar>
+          </Box>
+        )}
+
+        {/* Main Content */}
         <ContentWrapper
-          className='layout-page-content'
+          className="layout-page-content"
           sx={{
             ...(contentHeightFixed && { display: 'flex', overflow: 'hidden' }),
             ...(contentWidth === 'boxed' && {
@@ -173,17 +183,20 @@ const HorizontalLayout = (props: LayoutProps) => {
         >
           {children}
         </ContentWrapper>
+
         {/* Footer */}
         <Footer {...props} footerStyles={footerProps?.sx} footerContent={footerProps?.content} />
+
         {/* Customizer */}
         {themeConfig.disableCustomizer || hidden ? null : <Customizer />}
-        {/* Scroll to top button */}
+
+        {/* Scroll to Top Button */}
         {scrollToTop ? (
           scrollToTop(props)
         ) : (
-          <ScrollToTop className='mui-fixed'>
-            <Fab color='primary' size='small' aria-label='scroll back to top'>
-              <Icon icon='tabler:arrow-up' />
+          <ScrollToTop className="mui-fixed">
+            <Fab color="primary" size="small" aria-label="scroll back to top">
+              <Icon icon="tabler:arrow-up" />
             </Fab>
           </ScrollToTop>
         )}

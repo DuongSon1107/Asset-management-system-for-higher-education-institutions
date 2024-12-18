@@ -5,11 +5,11 @@ import Box, { BoxProps } from '@mui/material/Box'
 // ** Types
 import { BlankLayoutProps } from './types'
 
-// Styled component for Blank Layout component
-const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+// Styled component cho Blank Layout
+const StyledWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   height: '100vh',
 
-  // For V1 Blank layout pages
+  // Layout cho các trang Blank Layout V1
   '& .content-center': {
     display: 'flex',
     minHeight: '100vh',
@@ -18,7 +18,7 @@ const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
     padding: theme.spacing(5)
   },
 
-  // For V2 Blank layout pages
+  // Layout cho các trang Blank Layout V2
   '& .content-right': {
     display: 'flex',
     minHeight: '100vh',
@@ -27,14 +27,12 @@ const BlankLayoutWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const BlankLayout = ({ children }: BlankLayoutProps) => {
-  return (
-    <BlankLayoutWrapper className='layout-wrapper'>
-      <Box className='app-content' sx={{ overflow: 'hidden', minHeight: '100vh', position: 'relative' }}>
-        {children}
-      </Box>
-    </BlankLayoutWrapper>
-  )
-}
+const BlankLayout = ({ children }: BlankLayoutProps) => (
+  <StyledWrapper className="layout-wrapper">
+    <Box className="app-content" sx={{ overflow: 'hidden', minHeight: '100vh', position: 'relative' }}>
+      {children}
+    </Box>
+  </StyledWrapper>
+)
 
 export default BlankLayout
